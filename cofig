@@ -1,0 +1,27 @@
+import os
+import json
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
+# Use environment variables for sensitive data
+RPC_URL = os.getenv("RPC_URL", "https://rpc.testnet.humanity.org")
+CONTRACT_ADDRESS = os.getenv("CONTRACT_ADDRESS", "0xa18f6FCB2Fd4884436d10610E69DB7BFa1bFe8C7")
+
+# Store contract ABI in a separate JSON file for better maintainability
+ABI_FILE = "contract_abi.json"
+
+# Load contract ABI from file
+def load_contract_abi():
+    try:
+        with open(ABI_FILE, "r", encoding="utf-8") as file:
+            return json.load(file)
+    except FileNotFoundError:
+        print("ABI file not found.")
+        return []
+    except json.JSONDecodeError:
+        print("Error decoding ABI JSON file.")
+        return []
+
+CONTRACT_ABI = load_contract_abi()
